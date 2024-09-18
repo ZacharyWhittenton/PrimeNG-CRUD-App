@@ -29,4 +29,7 @@ displayAddModal = false;
     this.displayAddModal = true;
   }
 
+  hideAddModal(isClosed: boolean) {
+      this.displayAddModal = !isClosed;
+  }
 }

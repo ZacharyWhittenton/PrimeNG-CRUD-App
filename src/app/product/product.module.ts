@@ -9,13 +9,15 @@ import { DialogModule } from 'primeng/dialog';
 
 
 import { ProductComponent } from './product.component';
+import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 
 
 
 
 @NgModule({
   declarations: [
-    ProductComponent
+    ProductComponent,
+    AddEditProductComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { ProductComponent } from './product.component';
     TableModule,
     ButtonModule,
     DialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    
 
   ],
   exports: [

@@ -21,18 +21,8 @@
     </ng-template>
 </p-table>
 
+<app-add-edit-product 
+    [displayAddModal]="displayAddModal"
+    (clickClose)="hideAddModal($event)"
+></app-add-edit-product>
 
-<p-dialog 
-    header="Header" 
-    [(visible)]="displayAddModal" 
-    [modal]="true" 
-    [style]="{ width: '50vw' }" 
-    [draggable]="false" 
-    [resizable]="false">
-        <p m-0>
-            Lorem ipsum dolor sit amet...
-        </p>
-        <ng-template pTeemplate="footer">
-            <p-button> icon="pi pi-check" (click)="displayAddModal=false" label for="Cancel" styleClass="p-button-text"</p-button>
-        </ng-template>
-</p-dialog>

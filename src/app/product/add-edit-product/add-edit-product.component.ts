@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output  } from '@angular/core';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -7,4 +7,18 @@ import { Component } from '@angular/core';
 })
 export class AddEditProductComponent {
 
+    @Input() displayAddModal: boolean =  true;
+    @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    constructor() {}
+
+    ngOnInit(): void {
+
+    }
+
+    closeModal() {
+      this.clickClose.emit(true);
+    }
+
+   
 }
