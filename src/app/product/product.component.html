@@ -22,7 +22,8 @@
 </p-table>
 
 <app-add-edit-product 
-    [displayAddModal]="displayAddModal"
-    (clickClose)="hideAddModal($event)"
-></app-add-edit-product>
+  (clickClose)="hideAddModal($event)" 
+  [displayAddModal]="displayAddModal">
+</app-add-edit-product>
+
 

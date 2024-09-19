@@ -6,14 +6,47 @@
     [draggable]="false" 
     [resizable]="false"
     (onHide)="closeModal()">
-        <p m-0>
-            Lorem ipsum dolor sit amet...
-        </p>
+     
+    <form [formGroup]="productForm"
+    >
+        <div class="field">
+            <label class="block" for="title">Title</label>
+            <input type="text" pInputText id="title" formControlName="title" />
+            <small class="p-error block" *ngIf="productForm.controls['title'].invalid && productForm.controls['title'].dirty">
+                Field is required
+            </small>
+            
+            
+        </div>
+        <div class="field">
+            <label class="block" for="price">Price</label>
+            <p-inputNumber id="price" formControlName="price"></p-inputNumber>
+        </div>
+        <div class="field">
+            <label class="block">Decription</label>
+            <textarea pInputTextarea formControlName="description"></textarea>
+        </div>
+        <div class="field">
+            <label class="block" for="image">Image</label>
+            <input type="text" pInputText id="image" formControlName="image" />
+        </div>
+        <div class="field">
+            <label class="block" for="category">Category</label>
+            <input type="text" pInputText id="category" formControlName="category" />
+        </div>
+        
+    </form>
+
         <ng-template pTemplate="footer">
             <p-button
                 (click)="closeModal()" 
                 label="Cancel"
                 styleClass="p-button-text"
+                > </p-button>
+
+                <p-button
+                (click)="addProduct()" 
+                label="Add"
                 > </p-button>
         </ng-template>
 </p-dialog>
