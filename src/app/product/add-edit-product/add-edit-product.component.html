@@ -47,6 +47,7 @@
                 <p-button
                 (click)="addProduct()" 
                 label="Add"
+                [disabled]="productForm.invalid"
                 > </p-button>
         </ng-template>
 </p-dialog>
