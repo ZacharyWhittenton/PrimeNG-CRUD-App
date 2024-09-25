@@ -1,20 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ProductService } from '../product.service';
+import { MessageService } from 'primeng/api';
+import { Product } from '../product'; // Make sure this import matches your Product model
 
 @Component({
   selector: 'app-add-edit-product',
   templateUrl: './add-edit-product.component.html',
   styleUrls: ['./add-edit-product.component.css']
 })
-export class AddEditProductComponent {
+export class AddEditProductComponent implements OnInit {
 
   @Input() displayAddModal: boolean = true;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() clickAdd: EventEmitter<Product> = new EventEmitter<Product>();
 
   productForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private productService: ProductService) {
+  constructor(private fb: FormBuilder, private productService: ProductService, 
+    private messageService: MessageService) {
     // Initialize the form inside the constructor
     this.productForm = this.fb.group({
       title: ["", Validators.required],
@@ -25,17 +29,25 @@ export class AddEditProductComponent {
     });
   }
 
+  ngOnInit(): void {
+    console.log('Add/Edit Product Component initialized');
+  }
+
   closeModal() {
+    this.productForm.reset();
     this.clickClose.emit(true);
   }
 
   addProduct() {
-    // Use productForm's value instead of productService's value
     this.productService.saveProduct(this.productForm.value).subscribe(
       response => {
-        console.log(response);
-        this.productForm.reset();
-        this.clickClose.emit(true);
+        this.clickAdd.emit(response);
+        this.closeModal();
+        this.messageService.add({severity: 'sucess', summary: 'Sucess', detail: 'Product added'})
+      },
+      error => {
+        this.messageService.add({severity: 'error', summary: 'error', detail: error})
+        console.log('Error adding product:', error); // Handle errors appropriately
       }
     );
   }

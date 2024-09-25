@@ -1,5 +1,5 @@
 <p-dialog 
-    header="Header" 
+    header="Add Product" 
     [(visible)]="displayAddModal" 
     [modal]="true" 
     [style]="{ width: '50vw' }" 
@@ -7,7 +7,7 @@
     [resizable]="false"
     (onHide)="closeModal()">
      
-    <form [formGroup]="productForm"
+    <form [formGroup]="productForm" class="product-form"
     >
         <div class="field">
             <label class="block" for="title">Title</label>
@@ -20,7 +20,7 @@
         </div>
         <div class="field">
             <label class="block" for="price">Price</label>
-            <p-inputNumber id="price" formControlName="price"></p-inputNumber>
+            <p-inputNumber id="price" formControlName="price" class="block"></p-inputNumber>
         </div>
         <div class="field">
             <label class="block">Decription</label>

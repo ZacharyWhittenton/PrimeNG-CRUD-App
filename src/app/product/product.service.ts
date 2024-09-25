@@ -8,13 +8,13 @@ import { Product } from './product';
 })
 export class ProductService {
 
-  constructor(private http: HttpClient) { }
-    getProducts(): Observable<Product[]> {
-      return this.http.get<Product[]>('https://fakestoreapi.com/products?sort=desc');
-    }
+  constructor(private http: HttpClient) {}
 
-    saveProduct(postData: any) {
-      return this.http.post('https://fakestoreapi.com/products', postData);
-        }
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>('https://fakestoreapi.com/products?sort=desc');
   }
 
+  saveProduct(postData: Product): Observable<Product> {
+    return this.http.post<Product>('https://fakestoreapi.com/products', postData);
+}
+}

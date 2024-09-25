@@ -18,8 +18,9 @@ export class ProductComponent implements OnInit {
   }
 
   getProductList() {
-    this.productService.getProducts().subscribe(response => {
-      this.products = response;
+    this.productService.getProducts().subscribe(
+      response => {
+       this.products = response;
     });
   }
 
@@ -30,4 +31,11 @@ export class ProductComponent implements OnInit {
   hideAddModal(isClosed: boolean) {
     this.displayAddModal = !isClosed; // or simply set to false
   }
+  saveProductToList(NewData: Product) {
+    console.log('New product added:', NewData); // Debugging line
+    this.products.unshift(NewData); // Add the new product to the top of the list
+    
+}
+
+  
 }
