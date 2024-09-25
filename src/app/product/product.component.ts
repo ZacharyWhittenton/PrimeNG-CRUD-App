@@ -9,7 +9,8 @@ import { Product } from './product';
 })
 export class ProductComponent implements OnInit {
   products: Product[] = [];
-  displayAddModal = false;
+  displayAddEditModal = false;
+  selectedProduct: any = null;
 
   constructor(private productService: ProductService) {}
 
@@ -25,17 +26,22 @@ export class ProductComponent implements OnInit {
   }
 
   showAddModal() {
-    this.displayAddModal = true;
+    this.selectedProduct = null;
+    this.displayAddEditModal = true;
   }
 
   hideAddModal(isClosed: boolean) {
-    this.displayAddModal = !isClosed; // or simply set to false
+    this.displayAddEditModal = !isClosed; // or simply set to false
   }
   saveProductToList(NewData: Product) {
     console.log('New product added:', NewData); // Debugging line
     this.products.unshift(NewData); // Add the new product to the top of the list
     
 }
+  showEditModal(product: Product) {
+    this.displayAddEditModal = true;
+    this.selectedProduct = product;
+  }
 
   
 }

@@ -23,7 +23,7 @@
                     pButton
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-success mr-2"
-                    (click)="editProduct(product)"
+                    (click)="showEditModal(product)"
                 ></button>
             </td>
         </tr>
@@ -31,7 +31,8 @@
 </p-table>
 
 <app-add-edit-product 
-    [displayAddModal]="displayAddModal"
+    [displayAddEditModal]="displayAddEditModal"
+    [selectedProduct]="selectedProduct"
     (clickClose)="hideAddModal($event)"
     (clickAdd)="saveProductToList($event)">
 </app-add-edit-product>

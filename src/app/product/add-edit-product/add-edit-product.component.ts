@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ProductService } from '../product.service';
 import { MessageService } from 'primeng/api';
@@ -9,9 +9,10 @@ import { Product } from '../product'; // Make sure this import matches your Prod
   templateUrl: './add-edit-product.component.html',
   styleUrls: ['./add-edit-product.component.css']
 })
-export class AddEditProductComponent implements OnInit {
+export class AddEditProductComponent implements OnInit, OnChanges {
 
-  @Input() displayAddModal: boolean = true;
+  @Input() displayAddEditModal: boolean = true;
+  @Input() selectedProduct: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() clickAdd: EventEmitter<Product> = new EventEmitter<Product>();
 
@@ -28,9 +29,19 @@ export class AddEditProductComponent implements OnInit {
       image: ["", Validators.required],
     });
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     console.log('Add/Edit Product Component initialized');
+  }
+  OnChanges(): void {
+      if (this.selectedProduct) {
+        this.productForm.patchValue(this.selectedProduct);
+      } else {
+        this.productForm.reset();
+      }
   }
 
   closeModal() {
