@@ -1,30 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   displayAddEditModal = false;
   selectedProduct: Product | null = null; // Specify the type here
+  subscriptions: Subscription[] = [];
+  pdtSubscription: Subscription = new Subscription;
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService,
+      private confirmationService: ConfirmationService,
+      private messageService: MessageService,
+      
+  ) {}
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.getProductList();
   }
 
   getProductList() {
-    this.productService.getProducts().subscribe(
+    this.pdtSubscription = this.productService.getProducts().subscribe(
       response => {
         this.products = response;
       }
     );
-  }
+    this.subscriptions.push(this.pdtSubscription)
+    }
 
   showAddModal() {
     this.selectedProduct = null;
@@ -53,5 +65,38 @@ export class ProductComponent implements OnInit {
   showEditModal(product: Product) {
     this.selectedProduct = product;
     this.displayAddEditModal = true;
+  }
+
+  deleteProduct(product: Product){
+ 
+      this.confirmationService.confirm({
+          message: 'Are you sure that you want to delete this product?',
+      
+          accept: () => { //if they click yes this will happen
+            this.productService.deleteProduct(product.id).subscribe(
+              Response => {
+                //this.getProductList();
+                this.products = this.products.filter(data => data.id !== product.id);
+                this.messageService.add({ 
+                  severity: 'success', 
+                  summary: 'Success', 
+                  detail: 'Deleted Successfuilly' 
+              });
+              },
+              error => {
+                this.messageService.add({ 
+                  severity: 'error', 
+                  summary: 'Error', 
+                  detail: error 
+              });
+              }
+              
+            )
+          }
+
+      });
+  }
+  ngOnDestory(): void{
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

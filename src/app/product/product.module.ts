@@ -7,7 +7,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { ToastModule } from 'primeng/toast';;
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 import { ProductComponent } from './product.component';
 import { AddEditProductModule } from './add-edit-product/add-edit-product.module';
@@ -28,12 +30,14 @@ import { MessageService } from 'primeng/api';
     AddEditProductModule, // Import the module
     ReactiveFormsModule,
     ToastModule,
+    ConfirmDialogModule,
   ],
   exports: [
-    ProductComponent
+    ProductComponent,
   ],
   providers: [
-    MessageService
+    MessageService,
+    ConfirmationService
   ]
 })
 export class ProductModule { }

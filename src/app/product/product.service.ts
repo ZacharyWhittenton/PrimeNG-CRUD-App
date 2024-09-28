@@ -23,4 +23,9 @@ export class ProductService {
       return this.http.put<Product>(`${this.apiUrl}/${selectedPdt.id}`, postData); // Use backticks for template literals
     }
   }
+
+  deleteProduct(productId: number) {
+    return this.http.delete(`https://fakestoreapi.com/products/${productId}`);
+}
+
 }
