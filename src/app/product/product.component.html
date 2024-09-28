@@ -1,6 +1,6 @@
-<div class="flex justify-conetent-between">
+<div class="flex justify-content-between">
     <h2>Products</h2>
-    <p-button label="Add Product" (click)="showAddModal()" />
+    <p-button label="Add Product" (click)="showAddModal()"></p-button>
 </div>
 <p-table [value]="products" [paginator]="true" [rows]="5">
     <ng-template pTemplate="header">
@@ -23,8 +23,8 @@
                     pButton
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-success mr-2"
-                    (click)="showEditModal(product)"
-                ></button>
+                    (click)="showEditModal(product)">
+                </button>
             </td>
         </tr>
     </ng-template>
@@ -34,9 +34,7 @@
     [displayAddEditModal]="displayAddEditModal"
     [selectedProduct]="selectedProduct"
     (clickClose)="hideAddModal($event)"
-    (clickAdd)="saveProductToList($event)">
+    (clickAddEdit)="saveOrUpdateProduct($event)">
 </app-add-edit-product>
-
-
 
 <p-toast position="bottom-right"></p-toast>

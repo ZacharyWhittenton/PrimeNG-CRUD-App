@@ -1,5 +1,5 @@
 <p-dialog 
-    header="Add Product" 
+    header="{{ modalType }} Product"
     [(visible)]="displayAddEditModal" 
     [modal]="true" 
     [style]="{ width: '50vw' }" 
@@ -45,8 +45,8 @@
                 > </p-button>
 
                 <p-button
-                (click)="addProduct()" 
-                label="Add"
+                (click)="addEditProduct()" 
+                label="{{modalType }}"
                 [disabled]="productForm.invalid"
                 > </p-button>
         </ng-template>

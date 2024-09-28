@@ -14,7 +14,8 @@ export class AddEditProductComponent implements OnInit, OnChanges {
   @Input() displayAddEditModal: boolean = true;
   @Input() selectedProduct: any = null;
   @Output() clickClose: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() clickAdd: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output() clickAddEdit: EventEmitter<Product> = new EventEmitter<Product>();
+  modalType = "Add";
 
   productForm: FormGroup;
 
@@ -29,18 +30,17 @@ export class AddEditProductComponent implements OnInit, OnChanges {
       image: ["", Validators.required],
     });
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    throw new Error('Method not implemented.');
-  }
-
+  
   ngOnInit(): void {
     console.log('Add/Edit Product Component initialized');
   }
-  OnChanges(): void {
+  ngOnChanges(): void {
       if (this.selectedProduct) {
+        this.modalType = 'Edit';
         this.productForm.patchValue(this.selectedProduct);
       } else {
         this.productForm.reset();
+        this.modalType = 'Add';
       }
   }
 
@@ -49,17 +49,39 @@ export class AddEditProductComponent implements OnInit, OnChanges {
     this.clickClose.emit(true);
   }
 
-  addProduct() {
-    this.productService.saveProduct(this.productForm.value).subscribe(
-      response => {
-        this.clickAdd.emit(response);
-        this.closeModal();
-        this.messageService.add({severity: 'sucess', summary: 'Sucess', detail: 'Product added'})
-      },
-      error => {
-        this.messageService.add({severity: 'error', summary: 'error', detail: error})
-        console.log('Error adding product:', error); // Handle errors appropriately
-      }
+  addEditProduct() {
+    // Validate the form before proceeding
+    if (this.productForm.invalid) {
+        this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Invalid Form', 
+            detail: 'Please fill in all required fields.' 
+        });
+        return;
+    }
+
+    this.productService.addEditProduct(this.productForm.value, this.selectedProduct).subscribe(
+        response => {
+            console.log('Product response:', response); // Log the response for debugging
+            this.clickAddEdit.emit(response);
+            this.closeModal();
+            const msg = this.modalType === 'Add' ? 'Product added' : 'Product updated';
+            this.messageService.add({ 
+                severity: 'success', 
+                summary: 'Success', 
+                detail: msg 
+            });
+        },
+        error => {
+            const errorMsg = error.message || error; // Handle error structure
+            this.messageService.add({ 
+                severity: 'error', 
+                summary: 'Error', 
+                detail: errorMsg 
+            });
+            console.log('Error adding product:', error);
+        }
     );
-  }
+}
+
 }

@@ -10,7 +10,7 @@ import { Product } from './product';
 export class ProductComponent implements OnInit {
   products: Product[] = [];
   displayAddEditModal = false;
-  selectedProduct: any = null;
+  selectedProduct: Product | null = null; // Specify the type here
 
   constructor(private productService: ProductService) {}
 
@@ -21,8 +21,9 @@ export class ProductComponent implements OnInit {
   getProductList() {
     this.productService.getProducts().subscribe(
       response => {
-       this.products = response;
-    });
+        this.products = response;
+      }
+    );
   }
 
   showAddModal() {
@@ -33,15 +34,24 @@ export class ProductComponent implements OnInit {
   hideAddModal(isClosed: boolean) {
     this.displayAddEditModal = !isClosed; // or simply set to false
   }
-  saveProductToList(NewData: Product) {
-    console.log('New product added:', NewData); // Debugging line
-    this.products.unshift(NewData); // Add the new product to the top of the list
-    
-}
-  showEditModal(product: Product) {
-    this.displayAddEditModal = true;
-    this.selectedProduct = product;
+
+  // Accepts a Product type
+  saveOrUpdateProduct(newData: Product) {
+    console.log('New product added:', newData); // Debugging line
+    if (this.selectedProduct && newData.id === this.selectedProduct.id) {
+      const productIndex = this.products.findIndex(data => data.id === newData.id);
+      if (productIndex !== -1) {
+        this.products[productIndex] = newData; // Update existing product
+      }
+    } else {
+      this.products.unshift(newData); // Add the new product to the top of the list
+    }
+
+    this.hideAddModal(true); // Optionally close the modal after saving
   }
 
-  
+  showEditModal(product: Product) {
+    this.selectedProduct = product;
+    this.displayAddEditModal = true;
+  }
 }

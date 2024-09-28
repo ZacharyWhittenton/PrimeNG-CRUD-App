@@ -8,13 +8,19 @@ import { Product } from './product';
 })
 export class ProductService {
 
+  private apiUrl = 'https://fakestoreapi.com/products'; // Base URL for the API
+
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>('https://fakestoreapi.com/products?sort=desc');
+    return this.http.get<Product[]>(`${this.apiUrl}?sort=desc`);
   }
 
-  saveProduct(postData: Product): Observable<Product> {
-    return this.http.post<Product>('https://fakestoreapi.com/products', postData);
-}
+  addEditProduct(postData: Product, selectedPdt:any){
+    if (!selectedPdt) {
+      return this.http.post<Product>(this.apiUrl, postData);
+    } else {
+      return this.http.put<Product>(`${this.apiUrl}/${selectedPdt.id}`, postData); // Use backticks for template literals
+    }
+  }
 }
